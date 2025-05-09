@@ -1,23 +1,23 @@
 const cr = chrome.runtime
-const location = window.location.href
+const currentLocation = window.location.href
 const notifier = document.createElement("div");
 
 //Send current URL to background script
 cr.sendMessage({
     type: "URL",
-    url: location
+    url: currentLocation
 });
 
-var lastUrl = location
+var lastUrl = currentLocation
 // Listen for changes in the URL
 setInterval(() => {
     // Check if the URL has changed
-    if (location !== lastUrl) {
-        lastUrl = location;
+    if (currentLocation !== lastUrl) {
+        lastUrl = currentLocation;
         // Send the new URL to the background script
         cr.sendMessage({
             type: "URL",
-            url: location
+            url: currentLocation
         });
     }
 }
