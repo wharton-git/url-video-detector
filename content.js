@@ -1,4 +1,6 @@
 const cr = chrome.runtime
+const notifier = document.createElement("div");
+const notifierS = notifier.style;
 
 //Send current URL to background script
 cr.sendMessage({
@@ -8,10 +10,6 @@ cr.sendMessage({
 
 cr.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === "URL") {
-
-        const notifier = document.createElement("div");
-        const notifierS = notifier.style;
-
         notifierS.position = "fixed";
         notifierS.bottom = "20px";
         notifierS.right = "20px";
