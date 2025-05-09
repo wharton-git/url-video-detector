@@ -1,31 +1,17 @@
 const cr = chrome.runtime
-const currentLocation = window.location.href
-const notifier = document.createElement("div");
-const notifierS = notifier.style;
 
 //Send current URL to background script
 cr.sendMessage({
     type: "URL",
-    url: currentLocation
+    url: window.location.href
 });
-
-var lastUrl = currentLocation
-// Listen for changes in the URL
-setInterval(() => {
-    // Check if the URL has changed
-    if (currentLocation !== lastUrl) {
-        lastUrl = currentLocation;
-        // Send the new URL to the background script
-        cr.sendMessage({
-            type: "URL",
-            url: currentLocation
-        });
-    }
-}
-    , 1000); // Check every second
 
 cr.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === "URL") {
+
+        const notifier = document.createElement("div");
+        const notifierS = notifier.style;
+
         notifierS.position = "fixed";
         notifierS.bottom = "20px";
         notifierS.right = "20px";
@@ -44,3 +30,19 @@ cr.onMessage.addListener((request, sender, sendResponse) => {
         document.body.appendChild(notifier);
     }
 })
+
+var lastUrl = window.location.href
+// Listen for changes in the URL
+setInterval(() => {
+    // Check if the URL has changed
+    if (window.location.href !== lastUrl) {
+        lastUrl = window.location.href;
+        // Send the new URL to the background script
+        cr.sendMessage({
+            type: "URL",
+            url: lastUrl
+        });
+    }
+}
+    , 1000); // Check every second
+
