@@ -18,6 +18,19 @@
             ],
             "js": [
                 "content.js"
+            ],
+            "css": [
+                "styles/style.css"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "styles/style.css"
+            ],
+            "matches": [
+                "<all_urls>"
             ]
         }
     ],
