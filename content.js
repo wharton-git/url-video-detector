@@ -1,4 +1,3 @@
-const cr = chrome.runtime
 const notifier = document.createElement("div");
 const btnDown = document.createElement("div");
 const closeBtn = document.createElement("div");
@@ -74,12 +73,12 @@ btnDown.addEventListener("click", () => {
 });
 
 //Send current URL to background script
-cr.sendMessage({
+chrome.runtime.sendMessage({
     type: "URL",
     url: window.location.href
 });
 
-cr.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === "URL") {
         txt.innerHTML = `<strong>Video Detected :</strong>`;
         urlText.innerHTML = request.url;
@@ -94,16 +93,16 @@ cr.onMessage.addListener((request, sender, sendResponse) => {
         rightContainer.appendChild(closeBtn);
         document.body.appendChild(notifier);
     }
-})
+});
 
-var lastUrl = window.location.href
+var lastUrl = window.location.href;
 // Listen for changes in the URL
 setInterval(() => {
     // Check if the URL has changed
     if (window.location.href !== lastUrl) {
         lastUrl = window.location.href;
         // Send the new URL to the background script
-        cr.sendMessage({
+        chrome.runtime.sendMessage({
             type: "URL",
             url: lastUrl
         });
@@ -113,7 +112,7 @@ setInterval(() => {
 
 
 const sendParameters = async () => {
-    await fetch("http://localhost:3000/api/chat", {
+    await fetch("http://localhost:43214/_yt_", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -122,4 +121,4 @@ const sendParameters = async () => {
             url: window.location.href,
         })
     });
-}
+};
