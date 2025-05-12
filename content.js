@@ -25,7 +25,11 @@ closeBtn.addEventListener("click", () => {
 });
 
 btnDown.addEventListener("click", () => {
-    sendParameters();
+    //Send message to background script to download the video
+    chrome.runtime.sendMessage({
+        type: "SEND",
+        url: window.location.href
+    });
 });
 
 //Send current URL to background script
@@ -65,17 +69,4 @@ setInterval(() => {
     }
 }
     , 1000); // Check every second
-
-
-const sendParameters = async () => {
-    await fetch("http://localhost:43214/_yt_", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            url: window.location.href,
-        })
-    });
-};
 
