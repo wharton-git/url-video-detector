@@ -6,10 +6,6 @@ const leftContainer = document.createElement("div");
 const rightContainer = document.createElement("div");
 const txt = document.createElement("div");
 const urlText = document.createElement("div");
-const parametersConfPanel = document.createElement("div");
-const confPanel = document.createElement("div");
-const confPanelS = confPanel.style;
-const parametersConfPanelS = parametersConfPanel.style;
 const txtS = txt.style;
 const rightContainerS = rightContainer.style;
 const leftContainerS = leftContainer.style;
@@ -67,24 +63,6 @@ rightContainerS.width = "20%";
 rightContainerS.display = "flex";
 rightContainerS.height = "100%";
 
-confPanelS.width = "max-content";
-confPanelS.height = "max-content";
-confPanelS.backgroundColor = "white";
-confPanelS.borderRadius = "5px";
-confPanelS.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
-confPanelS.padding = "10px";
-
-parametersConfPanelS.position = "fixed";
-parametersConfPanelS.display = "flex";
-parametersConfPanelS.justifyContent = "center";
-parametersConfPanelS.alignItems = "center";
-parametersConfPanelS.zIndex = "19999";
-parametersConfPanelS.top = "0";
-parametersConfPanelS.left = "0";
-parametersConfPanelS.width = "100vw";
-parametersConfPanelS.height = "100vh";
-parametersConfPanelS.backgroundColor = "rgba(0, 0, 0, 0.8)";
-
 
 //Elements DOM events
 closeBtn.addEventListener("click", () => {
@@ -92,15 +70,7 @@ closeBtn.addEventListener("click", () => {
 });
 
 btnDown.addEventListener("click", () => {
-
-    confPanel.innerHTML = `Choisi la qualité de la video à télécharger :`
-
-    parametersConfPanel.appendChild(confPanel);
-    document.body.appendChild(parametersConfPanel);
-});
-
-parametersConfPanel.addEventListener("click", () => {
-    parametersConfPanel.remove();
+    sendParameters();
 });
 
 //Send current URL to background script
@@ -141,3 +111,15 @@ setInterval(() => {
 }
     , 1000); // Check every second
 
+
+const sendParameters = async () => {
+    await fetch("http://localhost:3000/api/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            url: window.location.href,
+        })
+    });
+}
