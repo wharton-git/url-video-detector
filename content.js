@@ -25,11 +25,13 @@ closeBtn.addEventListener("click", () => {
 });
 
 btnDown.addEventListener("click", () => {
-    //Send message to background script to download the video
-    chrome.runtime.sendMessage({
-        type: "SEND",
-        url: window.location.href
-    });
+    if (isHTTPS(window.location.href)) {
+        chrome.runtime.sendMessage({
+            type: "SEND",
+            url: window.location.href
+        });
+    }
+
 });
 
 //Send current URL to background script
@@ -70,3 +72,10 @@ setInterval(() => {
 }
     , 1000); // Check every second
 
+const isHTTPS = (url) => {
+    httpPart = url.split("://")[0];
+    if (httpPart === "http") {
+        return false;
+    }
+    return true;
+}
